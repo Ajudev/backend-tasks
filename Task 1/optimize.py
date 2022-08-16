@@ -49,10 +49,10 @@ class OrdersManager:
 # ---
 orders_manager = OrdersManager()
 
-start_time = time.time()
+start_time = time.perf_counter()
 
 orders_manager.process_orders()
 
-delay = time.time() - start_time
+delay = time.perf_counter() - start_time
 
 print(f"{datetime.now()} > Execution Time: {delay} seconds...")
