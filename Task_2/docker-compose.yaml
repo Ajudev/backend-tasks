@@ -1,0 +1,47 @@
+version: '3.3'
+services:
+  db:
+    image: mysql:5.7
+    container_name: order-mysql
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 10s
+      retries: 2
+    environment:
+      MYSQL_ROOT_PASSWORD: Test#123
+      MYSQL_DATABASE: orders
+    ports:
+      - "0.0.0.0:3307:3306"
+  
+  redis_cache:
+    image: redis
+    restart: always
+    ports:
+      - "0.0.0.0:6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 10s
+      retries: 2
+    command: redis-server
+    volumes:
+      - cache:/data
+      
+  order_app:
+    container_name: order_app
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+      redis_cache:
+        condition: service_healthy
+    ports:
+      - "0.0.0.0:5001:5001"
+
+volumes:
+  db_data:
+  cache:
