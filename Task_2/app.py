@@ -11,7 +11,7 @@ app.config.from_object('config.Config')
 db = SQLAlchemy(app)
 redis_client = redis.Redis(host="redis_cache", port=6379, db=0)
 
-api.add_resource(OrderDisplay, '/fetch-orders', '/fetch-orders/<int:page>')
+api.add_resource(OrderDisplay, '/orders', '/orders/<int:page>')
 
 
 if __name__ == '__main__':

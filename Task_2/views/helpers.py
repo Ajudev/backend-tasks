@@ -1,9 +1,13 @@
 import math
 import json
 from datetime import timedelta
+from typing import Dict, List
 
 
-def fetch_results(query, page):
+def fetch_results(query:str, page:int) -> Dict[List, Dict]:
+    """
+    Function which will fetch and return the order data
+    """
     from app import redis_client
     
     data = redis_client.get(f'order_page_{page}')
@@ -16,7 +20,7 @@ def fetch_results(query, page):
     return data
 
 
-def fetch_paginated_result(query, page): 
+def fetch_paginated_result(query:str, page:int) -> Dict[List, Dict]: 
     """
     Function which will fetch paginated results from DB
     """

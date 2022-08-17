@@ -1,6 +1,6 @@
 from flask_restful import Resource
-from flask import request, make_response
-from views.helpers import fetch_paginated_result, fetch_results
+from flask import make_response
+from views.helpers import fetch_results
 
 
 
@@ -13,8 +13,6 @@ class OrderDisplay(Resource):
             statement = f"select * from orders"
 
             data = fetch_results(statement, page)
-
-            # data = fetch_paginated_result(statement, page)
 
             return make_response(data, 200)
 
